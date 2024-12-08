@@ -4,8 +4,8 @@ services:
     ports:
       - "5672:5672"
     healthcheck:
-      test: ["executable", "arg"]
-      interval: 1m30s
+      test: ["cmd", "rabbitmqctl", "status"]
+      interval: 30s
       timeout: 30s
       retries: 5
       start_period: 30s
