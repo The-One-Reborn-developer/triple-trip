@@ -6,6 +6,8 @@ from aiogram import Bot, Dispatcher
 
 from dotenv import load_dotenv, find_dotenv
 
+from app.routes.start import start_router
+
 from app.tasks.create_tables_producer import create_tables_producer
 
 load_dotenv(find_dotenv())
@@ -19,15 +21,18 @@ async def main():
 
     try:
         logging.info('Creating database tables')
-        await create_tables_producer()
+        create_tables_producer()
     except Exception as e:
         logging.error(f'Error in main creating database tables: {e}')
 
     logging.info('Starting bot')
     bot = Bot(token=os.getenv('TELEGRAM_BOT_TOKEN'))
-    dp = Dispatcher(bot)
+    dp = Dispatcher()
+    dp.include_routers(
+        start_router
+    )
 
-    await dp.start_polling()
+    await dp.start_polling(bot)
 
 
 if __name__ == '__main__':

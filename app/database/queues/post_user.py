@@ -3,19 +3,23 @@ import logging
 from sqlalchemy import select
 
 from app.database.models.users import User
-from app.database.models.async_session import async_session
+from app.database.models.sync_session import sync_session
 
 
-async def post_user(telegram_id: int) -> bool:
-    with async_session() as session:
-        try:
-            user = session.scalar(select(User).where(User.telegram_id == telegram_id))
+def post_user(telegram_id: int) -> bool:
+    try:
+        with sync_session() as session:
+            with session.begin():
+                user = session.scalar(select(User).where(User.telegram_id == telegram_id))
 
-            if not user:
-                user = User(telegram_id=telegram_id)
-                session.add(user)
+                if not user:
+                    user = User(telegram_id=telegram_id)
+                    session.add(user)
 
-            return True
-        except Exception as e:
-            logging.error(f'Error creating user: {e}')
-            return False
+                    return True
+                else:
+                    logging.info(f'User {telegram_id} already exists in the database')
+                    return False
+    except Exception as e:
+        logging.error(f'Error in post_user adding user to database: {e}')
+        return False

@@ -2,14 +2,14 @@ import logging
 
 from app.database.models.base import Base
 from app.database.models.users import User
-from app.database.models.async_engine import async_engine
+from app.database.models.sync_engine import sync_engine
 
 
-async def create_tables() -> bool |None:
-    async with async_engine.begin() as conn:
-        try:
-            await conn.run_sync(Base.metadata.create_all)
+def create_tables() -> bool |None:
+    try:
+        with sync_engine.begin() as connection:
+            Base.metadata.create_all(connection)
             return True
-        except Exception as e:
-            logging.error(f'Error creating tables: {e}')
-            return False
+    except Exception as e:
+        logging.error(f'Error in create_tables creating tables: {e}')
+        return False

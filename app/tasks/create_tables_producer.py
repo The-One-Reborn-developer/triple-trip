@@ -3,13 +3,13 @@ import logging
 from app.tasks.base import RabbitmqBase
 
 
-async def create_tables_producer() -> bool:
+def create_tables_producer() -> bool:
     try:
         rabbitmq = RabbitmqBase()
 
-        await rabbitmq.connect()
+        rabbitmq.connect()
 
-        await rabbitmq.channel.basic_publish(
+        rabbitmq.channel.basic_publish(
             exchange='',
             routing_key='create_tables_queue',
             body='create_tables'

@@ -1,6 +1,6 @@
-import asyncio
+import logging
 
-import pika.adapters.asyncio_connection
+import pika
 
 
 class RabbitmqBase:
@@ -8,25 +8,26 @@ class RabbitmqBase:
         self.connection = None
         self.channel = None
 
-    async def connect(self):
-        loop = asyncio.get_event_loop()
+    
+    def connect(self):
+        try:
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+            self.channel = self.connection.channel()
+        except Exception as e:
+            logging.error(f'Error in RabbitmqBase connecting to RabbitMQ: {e}')
+    
 
-        self.connection = pika.adapters.asyncio_connection.AsyncioConnection(
-            pika.ConnectionParameters(
-                host='localhost',
-                port=5672
-            ),
-            loop=loop
-        )
+    def declare_queues(self):
+        try:
+            if not self.channel:
+                raise RuntimeError('RabbitMQ channel is not initialized')
+            else:
+                self.channel.queue_declare(queue='post_user_queue', durable=True)
+                self.channel.queue_declare(queue='create_tables_queue', durable=True)
+        except Exception as e:
+            logging.error(f'Error in RabbitmqBase declaring queues: {e}')
 
-        self.channel = await self.connection.channel()
 
-        await self.channel.queue_declare(
-            queue='create_tables_queue',    
-            durable=True
-        )
-
-        await self.channel.queue_declare(
-            queue='post_user_queue',
-            durable=True
-        )
+    def close(self):
+        if self.connection:
+            self.connection.close()

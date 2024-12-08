@@ -3,13 +3,13 @@ import logging
 from app.tasks.base import RabbitmqBase
 
 
-async def post_user_producer(telegram_id: int) -> bool:
+def post_user_producer(telegram_id: int) -> bool:
     try:
         rabbitmq = RabbitmqBase()
 
-        await rabbitmq.connect()
+        rabbitmq.connect()
 
-        await rabbitmq.channel.basic_publish(
+        rabbitmq.channel.basic_publish(
             exchange='',
             routing_key='post_user_queue',
             body=str(telegram_id)

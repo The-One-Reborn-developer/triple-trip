@@ -16,7 +16,7 @@ start_router = Router()
 @start_router.message(CommandStart())
 async def start(message):
     try:
-        await post_user_producer(message.from_user.id)
+        post_user_producer(message.from_user.id)
     except Exception as e:
         logging.error(f'Error in start_router adding user to database: {e}')
 
