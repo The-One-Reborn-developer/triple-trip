@@ -1,6 +1,7 @@
 import os
 import logging
 import asyncio
+import time
 
 from aiogram import Bot, Dispatcher
 
@@ -19,14 +20,13 @@ async def main():
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
 
-    connection_established = False
-    while not connection_established:
-        try:
-            logging.info('Creating database tables')
-            create_tables_producer()
-            connection_established = True
-        except Exception as e:
-            logging.error(f'Error in main creating database tables: {e}')
+    try:
+        logging.info('Waiting for RabbitMQ to be ready')
+        time.sleep(20)
+        logging.info('Creating database tables')
+        create_tables_producer()
+    except Exception as e:
+        logging.error(f'Error in main creating database tables: {e}')
 
     logging.info('Starting bot')
     bot = Bot(token=os.getenv('TELEGRAM_BOT_TOKEN'))
