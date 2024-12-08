@@ -19,11 +19,14 @@ async def main():
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
 
-    try:
-        logging.info('Creating database tables')
-        create_tables_producer()
-    except Exception as e:
-        logging.error(f'Error in main creating database tables: {e}')
+    connection_established = False
+    while not connection_established:
+        try:
+            logging.info('Creating database tables')
+            create_tables_producer()
+            connection_established = True
+        except Exception as e:
+            logging.error(f'Error in main creating database tables: {e}')
 
     logging.info('Starting bot')
     bot = Bot(token=os.getenv('TELEGRAM_BOT_TOKEN'))
