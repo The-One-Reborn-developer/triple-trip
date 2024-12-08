@@ -19,3 +19,14 @@ services:
       - rabbitmq
     volumes:
       - ./db.sqlite:/app/db.sqlite
+
+  queues:
+    build:
+      context: .
+      dockerfile: Dockerfile.queues
+    restart: always
+    depends_on:
+      - rabbitmq
+      - bot
+    volumes:
+      - ./db.sqlite:/app/db.sqlite
