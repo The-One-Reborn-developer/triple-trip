@@ -1,4 +1,4 @@
-import asyncio
+import time
 import logging
 
 from app.tasks.base import RabbitmqBase
@@ -11,6 +11,9 @@ def main():
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
+
+    logging.info('Waiting for RabbitMQ to be ready')
+    time.sleep(25)
 
     rabbitmq = RabbitmqBase()
 
