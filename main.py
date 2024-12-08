@@ -24,7 +24,7 @@ async def main():
         logging.error(f'Error in main creating database tables: {e}')
 
     logging.info('Starting bot')
-    bot = Bot(token=os.getenv('TELERAM_BOT_TOKEN'))
+    bot = Bot(token=os.getenv('TELEGRAM_BOT_TOKEN'))
     dp = Dispatcher(bot)
 
     await dp.start_polling()
