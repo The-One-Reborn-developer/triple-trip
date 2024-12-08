@@ -9,8 +9,6 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
-    volumes:
-      - ./db.sqlite:/app/db.sqlite
     
   bot:
     build:
@@ -19,3 +17,5 @@ services:
     restart: always
     depends_on:
       - rabbitmq
+    volumes:
+      - ./db.sqlite:/app/db.sqlite
