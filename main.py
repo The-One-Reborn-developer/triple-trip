@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv, find_dotenv
 
 from app.routes.start import start_router
+from app.routes.menu import menu_router
 
 from app.tasks.create_tables_producer import create_tables_producer
 
@@ -32,7 +33,8 @@ async def main():
     bot = Bot(token=os.getenv('TELEGRAM_BOT_TOKEN'))
     dp = Dispatcher()
     dp.include_routers(
-        start_router
+        start_router,
+        menu_router
     )
 
     await dp.start_polling(bot)
