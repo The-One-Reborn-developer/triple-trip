@@ -1,13 +1,10 @@
 services:
   rabbitmq:
-    build:
-      context: .
-      dockerfile: Dockerfile.rabbitmq
-    restart: always
+    image: rabbitmq:4.0.4
     ports:
       - "5672:5672"
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "5672"]
+      test: ["executable", "arg"]
       interval: 1m30s
       timeout: 30s
       retries: 5
