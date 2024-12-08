@@ -11,7 +11,9 @@ class RabbitmqBase:
     
     def connect(self):
         try:
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+            self.connection = pika.BlockingConnection(
+                pika.ConnectionParameters('rabbitmq')
+            )
             self.channel = self.connection.channel()
         except Exception as e:
             logging.error(f'Error in RabbitmqBase connecting to RabbitMQ: {e}')
@@ -22,8 +24,18 @@ class RabbitmqBase:
             if not self.channel:
                 raise RuntimeError('RabbitMQ channel is not initialized')
             else:
-                self.channel.queue_declare(queue='post_user_queue', durable=True)
-                self.channel.queue_declare(queue='create_tables_queue', durable=True)
+                self.channel.queue_declare(
+                    queue='post_user_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='create_tables_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='update_user_queue',
+                    durable=True
+                )
         except Exception as e:
             logging.error(f'Error in RabbitmqBase declaring queues: {e}')
 

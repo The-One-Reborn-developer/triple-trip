@@ -4,6 +4,7 @@ import logging
 from app.tasks.base import RabbitmqBase
 from app.tasks.post_user_consumer import post_user_consumer
 from app.tasks.create_tables_consumer import create_tables_consumer
+from app.tasks.update_user_consumer import update_user_consumer
 
 
 def main():
@@ -29,6 +30,11 @@ def main():
     rabbitmq.channel.basic_consume(
         queue='create_tables_queue',
         on_message_callback=create_tables_consumer
+    )
+
+    rabbitmq.channel.basic_consume(
+        queue='update_user_queue',
+        on_message_callback=update_user_consumer
     )
 
     logging.info(' [*] Waiting for messages.')

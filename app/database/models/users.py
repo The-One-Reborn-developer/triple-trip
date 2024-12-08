@@ -9,4 +9,5 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True)
+    is_admin: Mapped[bool] = mapped_column(default=False)
     languange: Mapped[str] = mapped_column(String(2), nullable=True)

@@ -1,4 +1,5 @@
 import logging
+import os
 
 from sqlalchemy import select
 
@@ -13,10 +14,17 @@ def post_user(telegram_id: int) -> bool:
                 user = session.scalar(select(User).where(User.telegram_id == telegram_id))
 
                 if not user:
-                    user = User(telegram_id=telegram_id)
-                    session.add(user)
+                    admins_telegram_ids = os.getenv('ADMINS_TELEGRAM_IDS').split(',')
+                    if str(telegram_id) in admins_telegram_ids:
+                        user = User(telegram_id=telegram_id, is_admin=True)
+                        session.add(user)
 
-                    return True
+                        return True
+                    else:
+                        user = User(telegram_id=telegram_id)
+                        session.add(user)
+
+                        return True
                 else:
                     logging.info(f'User {telegram_id} already exists in the database')
                     return False
