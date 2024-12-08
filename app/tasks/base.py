@@ -11,7 +11,7 @@ class RabbitmqBase:
     
     def connect(self):
         try:
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+            self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
             self.channel = self.connection.channel()
         except Exception as e:
             logging.error(f'Error in RabbitmqBase connecting to RabbitMQ: {e}')
