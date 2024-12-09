@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def menu_ru() -> InlineKeyboardMarkup:
+def menu_keyboard_ru() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -14,7 +14,7 @@ def menu_ru() -> InlineKeyboardMarkup:
     )
 
 
-def menu_en() -> InlineKeyboardMarkup:
+def menu_keyboard_en() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [

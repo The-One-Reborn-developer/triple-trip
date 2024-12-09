@@ -4,11 +4,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app.keyboards.add_place_ru import (
-    one_more_photo_ru
+    one_more_photo_keyboard_ru
 )
 
 from app.keyboards.menu import (
-    menu_ru
+    menu_keyboard_ru
 )
 
 from app.views.add_place import (
@@ -31,11 +31,6 @@ class AddPlace(StatesGroup):
     name = State()
     address = State()
     photos = State()
-
-
-@add_place_ru_router.callback_query()
-async def debug(callback: CallbackQuery, state: FSMContext):
-    await callback.answer(callback.data)
 
 
 @add_place_ru_router.callback_query(F.data == 'add_place_ru')
@@ -76,7 +71,7 @@ async def add_place_photos(message: Message, state: FSMContext):
     else:
         await message.answer(
             one_more_place_photo_ru(),
-            reply_markup=one_more_photo_ru()
+            reply_markup=one_more_photo_keyboard_ru()
         )
 
 
@@ -86,5 +81,5 @@ async def add_photo_done(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.edit_text(
         place_added_ru(),
-        reply_markup=menu_ru()
+        reply_markup=menu_keyboard_ru()
     )

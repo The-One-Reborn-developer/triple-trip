@@ -20,4 +20,7 @@ async def start(message):
     except Exception as e:
         logging.error(f'Error in start_router adding user to database: {e}')
 
-    await message.answer(choose_language(), reply_markup=start_keyboard())
+    await message.answer(
+        choose_language(),
+        reply_markup=start_keyboard()
+    )

@@ -29,5 +29,5 @@ async def menu_en(callback: CallbackQuery):
 
     await callback.message.edit_text(
         choose_option_en(),
-        reply_markup=menu_keyboard_en()
+        reply_markup=menu_en()
     )
