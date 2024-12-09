@@ -75,9 +75,11 @@ async def add_place_photos_en(message: Message, state: FSMContext):
         )
 
 
-@add_place_en_router.callback_query(F.data == 'add_photo_done_ru')
+@add_place_en_router.callback_query(F.data == 'add_photo_done_en')
 async def add_photo_done(callback: CallbackQuery, state: FSMContext):
     # TODO: add place to database for validation
+
+    await state.clear()
 
     await callback.message.edit_text(
         place_added_en(),

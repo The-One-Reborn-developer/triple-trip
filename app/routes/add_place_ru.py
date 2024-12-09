@@ -79,6 +79,8 @@ async def add_place_photos_ru(message: Message, state: FSMContext):
 async def add_photo_done(callback: CallbackQuery, state: FSMContext):
     # TODO: add place to database for validation
 
+    await state.clear()
+
     await callback.message.edit_text(
         place_added_ru(),
         reply_markup=menu_keyboard_ru()
