@@ -19,9 +19,8 @@ from app.tasks.update_user_producer import update_user_producer
 menu_router = Router()
 
 
-@menu_router.callback_query()
+@menu_router.callback_query(F.data == 'en')
 async def menu_en(callback: CallbackQuery):
-    logging.info(f'User {callback.from_user.id} chose {callback.data}')
     try:
         update_user_producer(
             callback.from_user.id,
@@ -35,7 +34,7 @@ async def menu_en(callback: CallbackQuery):
         reply_markup=menu_keyboard_en()
     )
 
-'''
+
 @menu_router.callback_query(F.data == 'ru')
 async def menu_ru(callback: CallbackQuery):
     try:
@@ -50,4 +49,3 @@ async def menu_ru(callback: CallbackQuery):
         choose_option_ru(),
         reply_markup=menu_keyboard_ru()
     )
-'''
