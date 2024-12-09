@@ -8,7 +8,7 @@ from app.keyboards.add_place_ru import (
 )
 
 from app.keyboards.menu import (
-    menu_keyboard_ru
+    menu_ru
 )
 
 from app.views.add_place import (
@@ -31,6 +31,11 @@ class AddPlace(StatesGroup):
     name = State()
     address = State()
     photos = State()
+
+
+@add_place_ru_router.callback_query()
+async def debug(callback: CallbackQuery, state: FSMContext):
+    await callback.answer(callback.data)
 
 
 @add_place_ru_router.callback_query(F.data == 'add_place_ru')
@@ -81,5 +86,5 @@ async def add_photo_done(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.edit_text(
         place_added_ru(),
-        reply_markup=menu_keyboard_ru()
+        reply_markup=menu_ru()
     )

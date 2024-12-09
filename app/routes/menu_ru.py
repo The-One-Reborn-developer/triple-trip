@@ -4,7 +4,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from app.keyboards.menu import (
-    menu_keyboard_ru
+    menu_ru
 )
 
 from app.views.menu import (
@@ -29,5 +29,5 @@ async def menu_ru(callback: CallbackQuery):
 
     await callback.message.edit_text(
         choose_option_ru(),
-        reply_markup=menu_keyboard_ru()
+        reply_markup=menu_ru()
     )
