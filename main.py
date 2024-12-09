@@ -8,7 +8,9 @@ from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv, find_dotenv
 
 from app.routes.start import start_router
-from app.routes.menu import menu_router
+from app.routes.menu_ru import menu_router_ru
+from app.routes.menu_en import menu_router_en
+from app.routes.add_place_ru import add_place_ru_router
 
 from app.tasks.create_tables_producer import create_tables_producer
 
@@ -34,7 +36,9 @@ async def main():
     dp = Dispatcher()
     dp.include_routers(
         start_router,
-        menu_router
+        menu_router_ru,
+        menu_router_en,
+        add_place_ru_router
     )
 
     await dp.start_polling(bot)
