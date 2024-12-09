@@ -4,7 +4,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from app.keyboards.menu import (
-    menu_keyboard_en
+    menu_en
 )
 
 from app.views.menu import (
