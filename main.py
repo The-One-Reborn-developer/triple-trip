@@ -11,6 +11,7 @@ from app.routes.start import start_router
 from app.routes.menu_ru import menu_router_ru
 from app.routes.menu_en import menu_router_en
 from app.routes.add_place_ru import add_place_ru_router
+from app.routes.add_place_en import add_place_en_router
 
 from app.tasks.create_tables_producer import create_tables_producer
 
@@ -38,7 +39,8 @@ async def main():
         start_router,
         menu_router_ru,
         menu_router_en,
-        add_place_ru_router
+        add_place_ru_router,
+        add_place_en_router
     )
 
     await dp.start_polling(bot)

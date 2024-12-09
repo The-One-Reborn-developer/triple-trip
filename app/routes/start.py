@@ -2,6 +2,7 @@ import logging
 
 from aiogram import Router
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
 
 from app.keyboards.start import start_keyboard
 
@@ -14,7 +15,9 @@ start_router = Router()
 
 
 @start_router.message(CommandStart())
-async def start(message):
+async def start(message, state: FSMContext):
+    await state.clear()
+
     try:
         post_user_producer(message.from_user.id)
     except Exception as e:
