@@ -19,12 +19,13 @@ from app.tasks.update_user_producer import update_user_producer
 menu_router = Router()
 
 
-@menu_router.callback_query(F.data == 'en')
+@menu_router.callback_query()
 async def menu_en(callback: CallbackQuery):
+    logging.info(f'User {callback.from_user.id} chose {callback.data}')
     try:
         update_user_producer(
             callback.from_user.id,
-            languange='en'
+            languange=callback.data
         )
     except Exception as e:
         logging.error(f'Error in menu_en updating user in database: {e}')
@@ -34,13 +35,13 @@ async def menu_en(callback: CallbackQuery):
         reply_markup=menu_keyboard_en()
     )
 
-
+'''
 @menu_router.callback_query(F.data == 'ru')
 async def menu_ru(callback: CallbackQuery):
     try:
         update_user_producer(
             callback.from_user.id,
-            languange='ru'
+            languange=callback.data
         )
     except Exception as e:
         logging.error(f'Error in menu_ru updating user in database: {e}')
@@ -49,3 +50,4 @@ async def menu_ru(callback: CallbackQuery):
         choose_option_ru(),
         reply_markup=menu_keyboard_ru()
     )
+'''
