@@ -27,43 +27,43 @@ from app.views.errors_en import (
 add_place_en_router = Router()
 
 
-class AddPlace(StatesGroup):
-    name = State()
-    address = State()
-    photos = State()
+class AddPlaceEn(StatesGroup):
+    name_en = State()
+    address_en = State()
+    photos_en = State()
 
 
 @add_place_en_router.callback_query(F.data == 'add_place_en')
 async def add_place(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(AddPlace.name)
+    await state.set_state(AddPlaceEn.name_en)
     
     await callback.message.edit_text(
         place_name_en()
     )
 
 
-@add_place_en_router.message(AddPlace.name)
-async def add_place_name(message: Message, state: FSMContext):
-    await state.update_data(name=message.text)
-    await state.set_state(AddPlace.address)
+@add_place_en_router.message(AddPlaceEn.name_en)
+async def add_place_name_en(message: Message, state: FSMContext):
+    await state.update_data(name_en=message.text)
+    await state.set_state(AddPlaceEn.address_en)
 
     await message.answer(
         place_address_en()
     )
 
 
-@add_place_en_router.message(AddPlace.address)
-async def add_place_address(message: Message, state: FSMContext):
-    await state.update_data(address=message.text)
-    await state.set_state(AddPlace.photos)
+@add_place_en_router.message(AddPlaceEn.address_en)
+async def add_place_address_en(message: Message, state: FSMContext):
+    await state.update_data(address_en=message.text)
+    await state.set_state(AddPlaceEn.photos_en)
 
     await message.answer(
         place_photo_en()
     )
 
 
-@add_place_en_router.message(AddPlace.photos)
-async def add_place_photos(message: Message, state: FSMContext):
+@add_place_en_router.message(AddPlaceEn.photos_en)
+async def add_place_photos_en(message: Message, state: FSMContext):
     if not message.photo:
         await message.answer(
             place_photo_error_en()
