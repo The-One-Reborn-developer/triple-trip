@@ -3,11 +3,11 @@ import logging
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
-from app.keyboards.menu import (
+from app.keyboards.menu_en import (
     menu_keyboard_en
 )
 
-from app.views.menu import (
+from app.views.menu_en import (
     choose_option_en
 )
 
