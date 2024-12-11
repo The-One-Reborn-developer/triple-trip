@@ -89,7 +89,7 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
         await state.update_data(photos_ru=photos)
 
         await message.answer(
-            f'{data}\n{photos_amount}'
+            f'{data}'
         )
         await message.answer(
             place_one_more_photo_ru(),
