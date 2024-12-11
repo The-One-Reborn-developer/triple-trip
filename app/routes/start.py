@@ -15,7 +15,7 @@ start_router = Router()
 
 
 @start_router.message(CommandStart())
-async def start(message, state: FSMContext):
+async def start_handler(message, state: FSMContext):
     await state.clear()
 
     try:

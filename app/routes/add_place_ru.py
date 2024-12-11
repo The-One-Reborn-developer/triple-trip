@@ -35,7 +35,7 @@ class AddPlaceRu(StatesGroup):
 
 
 @add_place_ru_router.callback_query(F.data.startswith('country_ru_'))
-async def add_place(callback: CallbackQuery, state: FSMContext):
+async def add_place_handler(callback: CallbackQuery, state: FSMContext):
     await state.set_state(AddPlaceRu.country)
     await state.update_data(country=callback.data.split('_')[-2])
     await state.set_state(AddPlaceRu.name)
@@ -46,7 +46,7 @@ async def add_place(callback: CallbackQuery, state: FSMContext):
 
 
 @add_place_ru_router.message(AddPlaceRu.name)
-async def add_place_name(message: Message, state: FSMContext):
+async def add_place_name_handler(message: Message, state: FSMContext):
     await state.update_data(name=message.text)
     await state.set_state(AddPlaceRu.address)
 
@@ -56,7 +56,7 @@ async def add_place_name(message: Message, state: FSMContext):
 
 
 @add_place_ru_router.message(AddPlaceRu.address)
-async def add_place_address(message: Message, state: FSMContext):
+async def add_place_address_handler(message: Message, state: FSMContext):
     await state.update_data(address=message.text)
     await state.set_state(AddPlaceRu.photos)
 
@@ -66,7 +66,7 @@ async def add_place_address(message: Message, state: FSMContext):
 
 
 @add_place_ru_router.message(AddPlaceRu.photos)
-async def add_place_photo(message: Message, state: FSMContext):
+async def add_place_photo_handler(message: Message, state: FSMContext):
     data = await state.get_data()
     photos = data.get('photos', [])
 
@@ -98,7 +98,7 @@ async def add_place_photo(message: Message, state: FSMContext):
 
 
 @add_place_ru_router.callback_query(F.data == 'add_photo_done_ru')
-async def add_place_done(callback: CallbackQuery, state: FSMContext):
+async def add_place_done_handler(callback: CallbackQuery, state: FSMContext):
     # TODO: add place to database for validation
 
     await state.clear()
