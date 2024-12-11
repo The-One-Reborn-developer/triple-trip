@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app.keyboards.add_place_ru import (
-    one_more_photo_keyboard_ru
+    add_place_photo_keyboard_ru
 )
 
 from app.keyboards.menu_ru import (
@@ -15,7 +15,7 @@ from app.views.add_place_ru import (
     place_name_ru,
     place_address_ru,
     place_photo_ru,
-    one_more_place_photo_ru,
+    place_one_more_photo_ru,
     place_added_ru
 )
 
@@ -63,16 +63,32 @@ async def add_place_address_ru(message: Message, state: FSMContext):
 
 
 @add_place_ru_router.message(AddPlaceRu.photos_ru)
-async def add_place_photos_ru(message: Message, state: FSMContext):
+async def add_place_first_photo_ru(message: Message, state: FSMContext):
     if not message.photo:
-        await message.answer(
-            place_photo_error_ru()
-        )
-    else:
-        await message.answer(
-            one_more_place_photo_ru(),
-            reply_markup=one_more_photo_keyboard_ru()
-        )
+        data = await state.get_data()
+        photos_amount = len(data.get('photos_ru'))
+
+        if photos_amount == 0:
+            await message.answer(
+                place_photo_error_ru()
+            )
+        elif photos_amount == 10:
+            # TODO: add place to database for validation
+
+            await state.clear()
+
+            await message.answer(
+                place_added_ru(),
+                reply_markup=menu_keyboard_ru()
+            )
+        else:
+            await message.answer(
+                f'{data}\n{photos_amount}'
+            )
+            await message.answer(
+                place_one_more_photo_ru(),
+                reply_markup=add_place_photo_keyboard_ru()
+            )
 
 
 @add_place_ru_router.callback_query(F.data == 'add_photo_done_ru')
