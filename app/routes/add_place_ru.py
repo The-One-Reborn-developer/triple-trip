@@ -64,11 +64,13 @@ async def add_place_address_ru(message: Message, state: FSMContext):
 
 @add_place_ru_router.message(AddPlaceRu.photos_ru)
 async def add_place_first_photo_ru(message: Message, state: FSMContext):
-    if not message.photo:
-        data = await state.get_data()
-        photos_amount = len(data.get('photos_ru'))
+    data = await state.get_data()
+    photos = data.get('photos_ru', [])
 
-        if photos_amount is None:
+    if not message.photo:
+        photos_amount = len(photos)
+
+        if photos_amount == 0:
             await message.answer(
                 place_photo_error_ru()
             )
@@ -83,13 +85,9 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
             )
     else:
         photo_id = message.photo[-1].file_id
-        data = await state.get_data()
-        photos_amount = len(data.get('photos_ru'))
+        photos.append(photo_id)
+        await state.update_data(photos_ru=photos)
 
-        if photos_amount is None:
-            await state.update_data(photos_ru=[photo_id])
-        else:
-            await state.update_data(photos_ru=data.get('photos_ru') + [photo_id])
         await message.answer(
             f'{data}\n{photos_amount}'
         )
