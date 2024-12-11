@@ -28,6 +28,7 @@ add_place_ru_router = Router()
 
 
 class AddPlaceRu(StatesGroup):
+    country_ru = State()
     name_ru = State()
     address_ru = State()
     photos_ru = State()
@@ -88,9 +89,6 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
         photos.append(photo_id)
         await state.update_data(photos_ru=photos)
 
-        await message.answer(
-            f'{data}'
-        )
         await message.answer(
             place_one_more_photo_ru(),
             reply_markup=add_place_photo_keyboard_ru()

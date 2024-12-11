@@ -10,8 +10,9 @@ def place_photo_en() -> str:
     return 'Send photos of the place ONE BY ONE 📸'
 
 
-def one_more_place_photo_en() -> str:
-    return 'Do you want to add another photo? 📸'
+def place_one_more_photo_en() -> str:
+    return 'The photo is loaded ☑️\n' \
+           'If you want to add another one, just send it 📥'
 
 
 def place_added_en() -> str:
