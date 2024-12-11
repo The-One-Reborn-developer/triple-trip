@@ -83,9 +83,13 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
             )
     else:
         photo_id = message.photo[-1].file_id
-        await state.update_data(photos_ru=data.get('photos_ru') + [photo_id])
         data = await state.get_data()
         photos_amount = len(data.get('photos_ru'))
+
+        if photos_amount == 0:
+            await state.update_data(photos_ru=[photo_id])
+        else:
+            await state.update_data(photos_ru=data.get('photos_ru') + [photo_id])
         await message.answer(
             f'{data}\n{photos_amount}'
         )
