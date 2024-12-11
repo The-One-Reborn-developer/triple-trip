@@ -68,7 +68,7 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
         data = await state.get_data()
         photos_amount = len(data.get('photos_ru'))
 
-        if photos_amount == 0:
+        if photos_amount is None:
             await message.answer(
                 place_photo_error_ru()
             )
@@ -86,7 +86,7 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
         data = await state.get_data()
         photos_amount = len(data.get('photos_ru'))
 
-        if photos_amount == 0:
+        if photos_amount is None:
             await state.update_data(photos_ru=[photo_id])
         else:
             await state.update_data(photos_ru=data.get('photos_ru') + [photo_id])
