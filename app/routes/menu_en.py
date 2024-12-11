@@ -4,11 +4,11 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from app.keyboards.menu_en import (
-    menu_keyboard_en
+    menu_keyboard
 )
 
 from app.views.menu_en import (
-    choose_option_en
+    choose_option
 )
 
 from app.tasks.update_user_producer import update_user_producer
@@ -28,6 +28,6 @@ async def menu(callback: CallbackQuery):
         logging.error(f'Error in menu_en updating user in database: {e}')
 
     await callback.message.edit_text(
-        choose_option_en(),
-        reply_markup=menu_keyboard_en()
+        choose_option(),
+        reply_markup=menu_keyboard()
     )
