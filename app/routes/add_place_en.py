@@ -4,23 +4,23 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app.keyboards.add_place_en import (
-    add_place_photo_keyboard_en
+    add_place_photo_keyboard
 )
 
 from app.keyboards.menu_en import (
-    menu_keyboard_en
+    menu_keyboard
 )
 
 from app.views.add_place_en import (
-    place_name_en,
-    place_address_en,
-    place_photo_en,
-    place_one_more_photo_en,
-    place_added_en
+    place_name,
+    place_address,
+    place_photo,
+    place_one_more_photo,
+    place_added
 )
 
 from app.views.errors_en import (
-    place_photo_error_en
+    place_photo_error
 )
 
 
@@ -37,34 +37,34 @@ class AddPlaceEn(StatesGroup):
 @add_place_en_router.callback_query(F.data == 'add_place_en')
 async def add_place(callback: CallbackQuery, state: FSMContext):
     await state.set_state(AddPlaceEn.name_en)
-    
+
     await callback.message.edit_text(
-        place_name_en()
+        place_name()
     )
 
 
 @add_place_en_router.message(AddPlaceEn.name_en)
-async def add_place_name_en(message: Message, state: FSMContext):
+async def add_place_name(message: Message, state: FSMContext):
     await state.update_data(name_en=message.text)
     await state.set_state(AddPlaceEn.address_en)
 
     await message.answer(
-        place_address_en()
+        place_address()
     )
 
 
 @add_place_en_router.message(AddPlaceEn.address_en)
-async def add_place_address_en(message: Message, state: FSMContext):
+async def add_place_address(message: Message, state: FSMContext):
     await state.update_data(address_en=message.text)
     await state.set_state(AddPlaceEn.photos_en)
 
     await message.answer(
-        place_photo_en()
+        place_photo()
     )
 
 
 @add_place_en_router.message(AddPlaceEn.photos_en)
-async def add_place_first_photo_ru(message: Message, state: FSMContext):
+async def add_place_photo(message: Message, state: FSMContext):
     data = await state.get_data()
     photos = data.get('photos_ru', [])
 
@@ -73,7 +73,7 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
 
         if photos_amount == 0:
             await message.answer(
-                place_photo_error_en()
+                place_photo_error()
             )
         elif photos_amount == 10:
             # TODO: add place to database for validation
@@ -81,8 +81,8 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
             await state.clear()
 
             await message.answer(
-                place_added_en(),
-                reply_markup=menu_keyboard_en()
+                place_added(),
+                reply_markup=menu_keyboard()
             )
     else:
         photo_id = message.photo[-1].file_id
@@ -90,18 +90,18 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
         await state.update_data(photos_ru=photos)
 
         await message.answer(
-            place_one_more_photo_en(),
-            reply_markup=add_place_photo_keyboard_en()
+            place_one_more_photo(),
+            reply_markup=add_place_photo_keyboard()
         )
 
 
 @add_place_en_router.callback_query(F.data == 'add_photo_done_en')
-async def add_photo_done(callback: CallbackQuery, state: FSMContext):
+async def add_place_done(callback: CallbackQuery, state: FSMContext):
     # TODO: add place to database for validation
 
     await state.clear()
 
     await callback.message.edit_text(
-        place_added_en(),
-        reply_markup=menu_keyboard_en()
+        place_added(),
+        reply_markup=menu_keyboard()
     )

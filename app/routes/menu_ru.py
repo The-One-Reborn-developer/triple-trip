@@ -18,7 +18,7 @@ menu_router_ru = Router()
 
 
 @menu_router_ru.callback_query(F.data == 'ru')
-async def menu_ru(callback: CallbackQuery):
+async def menu(callback: CallbackQuery):
     try:
         update_user_producer(
             callback.from_user.id,

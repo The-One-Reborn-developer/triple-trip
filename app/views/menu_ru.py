@@ -1,2 +1,2 @@
-def choose_option_ru() -> str:
+def choose_option() -> str:
     return 'Выберите опцию ⏬'

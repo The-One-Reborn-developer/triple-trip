@@ -18,7 +18,7 @@ menu_router_en = Router()
 
 
 @menu_router_en.callback_query(F.data == 'en')
-async def menu_en(callback: CallbackQuery):
+async def menu(callback: CallbackQuery):
     try:
         update_user_producer(
             callback.from_user.id,
