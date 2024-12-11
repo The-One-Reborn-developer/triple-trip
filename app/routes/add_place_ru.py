@@ -81,14 +81,18 @@ async def add_place_first_photo_ru(message: Message, state: FSMContext):
                 place_added_ru(),
                 reply_markup=menu_keyboard_ru()
             )
-        else:
-            await message.answer(
-                f'{data}\n{photos_amount}'
-            )
-            await message.answer(
-                place_one_more_photo_ru(),
-                reply_markup=add_place_photo_keyboard_ru()
-            )
+    else:
+        photo_id = message.photo[-1].file_id
+        await state.update_data(photos_ru=data.get('photos_ru') + [photo_id])
+        data = await state.get_data()
+        photos_amount = len(data.get('photos_ru'))
+        await message.answer(
+            f'{data}\n{photos_amount}'
+        )
+        await message.answer(
+            place_one_more_photo_ru(),
+            reply_markup=add_place_photo_keyboard_ru()
+        )
 
 
 @add_place_ru_router.callback_query(F.data == 'add_photo_done_ru')
