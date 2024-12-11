@@ -1,7 +1,7 @@
 import logging
 import orjson
 
-from app.database.queues.update_user import update_user
+from app.database.queries.update_user import update_user
 
 
 def update_user_consumer(ch, method, properties, body) -> None:

@@ -1,6 +1,6 @@
 import logging
 
-from app.database.queues.post_user import post_user
+from app.database.queries.post_user import post_user
 
 
 def post_user_consumer(ch, method, properties, body) -> None:

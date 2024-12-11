@@ -1,6 +1,6 @@
 import logging
 
-from app.database.queues.create_tables import create_tables
+from app.database.queries.create_tables import create_tables
 
 
 def create_tables_consumer(ch, method, properties, body) -> None:
