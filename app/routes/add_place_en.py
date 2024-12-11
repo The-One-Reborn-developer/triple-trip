@@ -34,8 +34,10 @@ class AddPlaceEn(StatesGroup):
     photos = State()
 
 
-@add_place_en_router.callback_query(F.data == 'add_place_en')
+@add_place_en_router.callback_query(F.data.startswith('country_en_'))
 async def add_place_handler(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(AddPlaceEn.country)
+    await state.update_data(country=callback.data.split('_')[-1])
     await state.set_state(AddPlaceEn.name)
 
     await callback.message.edit_text(
