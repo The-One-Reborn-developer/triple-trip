@@ -37,7 +37,7 @@ class AddPlaceRu(StatesGroup):
 @add_place_ru_router.callback_query(F.data.startswith('country_ru_'))
 async def add_place_handler(callback: CallbackQuery, state: FSMContext):
     await state.set_state(AddPlaceRu.country)
-    await state.update_data(country=callback.data.split('_')[-2])
+    await state.update_data(country=callback.data.split('_')[-1])
     await state.set_state(AddPlaceRu.name)
     
     await callback.message.edit_text(

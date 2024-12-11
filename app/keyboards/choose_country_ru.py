@@ -13,7 +13,7 @@ def choose_country_keyboard(page) -> InlineKeyboardMarkup:
     page_data = data[start_index:end_index]
 
     keyboard = [
-        [InlineKeyboardButton(text=country["name"], callback_data=f"country_ru_{country['name']}_{country['code']}")]
+        [InlineKeyboardButton(text=country["name"], callback_data=f"country_ru_{country['code']}")]
         for country in page_data
     ]
 
