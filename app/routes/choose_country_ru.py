@@ -17,8 +17,19 @@ async def choose_country_handler(callback: CallbackQuery):
     )
 
 
-@choose_country_ru_router.callback_query(F.data.startswith('previous_page_ru_') or F.data.startswith('next_page_ru_'))
-async def pagination_handler(callback: CallbackQuery):
+@choose_country_ru_router.callback_query(F.data.startswith('previous_page_ru_'))
+async def pagination_previous_handler(callback: CallbackQuery):
+    page = int(callback.data.split('_')[-1])
+
+    await callback.message.edit_reply_markup(
+        reply_markup=choose_country_keyboard(page)
+    )
+
+    await callback.answer()
+
+
+@choose_country_ru_router.callback_query(F.data.startswith('next_page_ru_'))
+async def pagination_next_handler(callback: CallbackQuery):
     page = int(callback.data.split('_')[-1])
 
     await callback.message.edit_reply_markup(
