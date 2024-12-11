@@ -28,42 +28,42 @@ add_place_en_router = Router()
 
 
 class AddPlaceEn(StatesGroup):
-    country_en = State()
-    name_en = State()
-    address_en = State()
-    photos_en = State()
+    country = State()
+    name = State()
+    address = State()
+    photos = State()
 
 
 @add_place_en_router.callback_query(F.data == 'add_place_en')
 async def add_place(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(AddPlaceEn.name_en)
+    await state.set_state(AddPlaceEn.name)
 
     await callback.message.edit_text(
         place_name()
     )
 
 
-@add_place_en_router.message(AddPlaceEn.name_en)
+@add_place_en_router.message(AddPlaceEn.name)
 async def add_place_name(message: Message, state: FSMContext):
-    await state.update_data(name_en=message.text)
-    await state.set_state(AddPlaceEn.address_en)
+    await state.update_data(name=message.text)
+    await state.set_state(AddPlaceEn.address)
 
     await message.answer(
         place_address()
     )
 
 
-@add_place_en_router.message(AddPlaceEn.address_en)
+@add_place_en_router.message(AddPlaceEn.address)
 async def add_place_address(message: Message, state: FSMContext):
-    await state.update_data(address_en=message.text)
-    await state.set_state(AddPlaceEn.photos_en)
+    await state.update_data(address=message.text)
+    await state.set_state(AddPlaceEn.photos)
 
     await message.answer(
         place_photo()
     )
 
 
-@add_place_en_router.message(AddPlaceEn.photos_en)
+@add_place_en_router.message(AddPlaceEn.photos)
 async def add_place_photo(message: Message, state: FSMContext):
     data = await state.get_data()
     photos = data.get('photos_ru', [])

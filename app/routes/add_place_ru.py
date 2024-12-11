@@ -28,45 +28,45 @@ add_place_ru_router = Router()
 
 
 class AddPlaceRu(StatesGroup):
-    country_ru = State()
-    name_ru = State()
-    address_ru = State()
-    photos_ru = State()
+    country = State()
+    name = State()
+    address = State()
+    photos = State()
 
 
 @add_place_ru_router.callback_query(F.data == 'add_place_ru')
 async def add_place(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(AddPlaceRu.name_ru)
+    await state.set_state(AddPlaceRu.name)
     
     await callback.message.edit_text(
         place_name()
     )
 
 
-@add_place_ru_router.message(AddPlaceRu.name_ru)
+@add_place_ru_router.message(AddPlaceRu.name)
 async def add_place_name(message: Message, state: FSMContext):
-    await state.update_data(name_ru=message.text)
-    await state.set_state(AddPlaceRu.address_ru)
+    await state.update_data(name=message.text)
+    await state.set_state(AddPlaceRu.address)
 
     await message.answer(
         place_address()
     )
 
 
-@add_place_ru_router.message(AddPlaceRu.address_ru)
+@add_place_ru_router.message(AddPlaceRu.address)
 async def add_place_address(message: Message, state: FSMContext):
-    await state.update_data(address_ru=message.text)
-    await state.set_state(AddPlaceRu.photos_ru)
+    await state.update_data(address=message.text)
+    await state.set_state(AddPlaceRu.photos)
 
     await message.answer(
         place_photo()
     )
 
 
-@add_place_ru_router.message(AddPlaceRu.photos_ru)
+@add_place_ru_router.message(AddPlaceRu.photos)
 async def add_place_photo(message: Message, state: FSMContext):
     data = await state.get_data()
-    photos = data.get('photos_ru', [])
+    photos = data.get('photos', [])
 
     if not message.photo:
         photos_amount = len(photos)
@@ -87,7 +87,7 @@ async def add_place_photo(message: Message, state: FSMContext):
     else:
         photo_id = message.photo[-1].file_id
         photos.append(photo_id)
-        await state.update_data(photos_ru=photos)
+        await state.update_data(photos=photos)
 
         await message.answer(
             place_one_more_photo(),
