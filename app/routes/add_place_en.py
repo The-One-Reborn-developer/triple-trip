@@ -72,7 +72,7 @@ async def add_place_address_handler(message: Message, state: FSMContext):
 @add_place_en_router.message(AddPlaceEn.photos)
 async def add_place_photo_handler(message: Message, state: FSMContext):
     data = await state.get_data()
-    photos = data.get('photos_ru', [])
+    photos = data.get('photos', [])
 
     if not message.photo:
         photos_amount = len(photos)
