@@ -104,7 +104,7 @@ async def add_place_photo_handler(message: Message, state: FSMContext):
     else:
         photo_id = message.photo[-1].file_id
         photos.append(photo_id)
-        await state.update_data(photos_ru=photos)
+        await state.update_data(photos=photos)
 
         await message.answer(
             place_one_more_photo(),
