@@ -5,7 +5,7 @@ from sqlalchemy import select
 from app.database.models.users import User
 from app.database.models.sync_session import sync_session
 
-async def update_user(telegram_id: int, **kwargs) -> bool:
+def update_user(telegram_id: int, **kwargs) -> bool:
     try:
         with sync_session() as session:
             with session.begin():
