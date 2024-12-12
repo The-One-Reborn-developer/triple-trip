@@ -119,7 +119,7 @@ async def add_place_done_handler(callback: CallbackQuery, state: FSMContext):
         'country': data['country'],
         'name': data['name'],
         'address': data['address'],
-        'photos': data['photos_ru']
+        'photos': data['photos']
     }
 
     try:
