@@ -3,7 +3,7 @@ import orjson
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def show_place_choose_country_keyboard(page) -> InlineKeyboardMarkup:
+def choose_country_keyboard(page) -> InlineKeyboardMarkup:
     data = orjson.loads(open('app/temp/countries_ru.json', 'rb').read())
     items_per_page = 20
     total_pages = (len(data) + items_per_page - 1) // items_per_page
