@@ -1,4 +1,5 @@
 import logging
+import orjson
 
 from app.tasks.base import RabbitmqBase
 
@@ -17,7 +18,7 @@ def update_user_producer(telegram_id: int, **kwargs) -> bool:
         rabbitmq.channel.basic_publish(
             exchange='',
             routing_key='update_user_queue',
-            body=message
+            body=orjson.dumps(message)
         )
 
         logging.info(f'User {telegram_id} with {kwargs} sent through database queue to be updated in the database')
