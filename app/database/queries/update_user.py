@@ -9,7 +9,8 @@ async def update_user(telegram_id: int, **kwargs) -> bool:
     try:
         with sync_session() as session:
             with session.begin():
-                user = session.scalar(select(User).where(User.telegram_id == telegram_id))
+                user = session.scalar(select(User).
+                                      where(User.telegram_id == telegram_id))
 
                 if user:
                     for key, value in kwargs.items():

@@ -18,5 +18,5 @@ def post_user_producer(telegram_id: int) -> bool:
         logging.info(f'User {telegram_id} sent through database queue to be added to the database')
         return True
     except Exception as e:
-        logging.error(f'Error in post_user_producer adding user to database: {e}')
+        logging.error(f'Error in post_user_producer adding user to the database: {e}')
         return False

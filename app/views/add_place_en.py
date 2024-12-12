@@ -1,13 +1,13 @@
 def place_name() -> str:
-    return 'Enter the name of the place ✍️'
+    return 'Enter the name of the location ✍️'
 
 
 def place_address() -> str:
-    return 'Enter the address of the place ✍️'
+    return 'Enter the address of the location ✍️'
 
 
 def place_photo() -> str:
-    return 'Send photos of the place ONE BY ONE 📸'
+    return 'Send photos of the location ONE BY ONE 📸'
 
 
 def place_one_more_photo() -> str:

@@ -2,6 +2,7 @@ import logging
 
 from app.database.models.base import Base
 from app.database.models.users import User
+from app.database.models.locations import Location
 from app.database.models.sync_engine import sync_engine
 
 

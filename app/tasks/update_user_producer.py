@@ -23,5 +23,5 @@ def update_user_producer(telegram_id: int, **kwargs) -> bool:
         logging.info(f'User {telegram_id} with {kwargs} sent through database queue to be updated in the database')
         return True
     except Exception as e:
-        logging.error(f'Error in update_user_producer updating user in database: {e}')
+        logging.error(f'Error in update_user_producer updating user in the database: {e}')
         return False

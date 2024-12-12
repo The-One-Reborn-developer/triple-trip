@@ -11,7 +11,8 @@ def post_user(telegram_id: int) -> bool:
     try:
         with sync_session() as session:
             with session.begin():
-                user = session.scalar(select(User).where(User.telegram_id == telegram_id))
+                user = session.scalar(select(User)
+                                      .where(User.telegram_id == telegram_id))
 
                 if not user:
                     admins_telegram_ids = os.getenv('ADMINS_TELEGRAM_IDS').split(',')

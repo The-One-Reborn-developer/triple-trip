@@ -21,6 +21,7 @@ async def start_handler(message, state: FSMContext):
     try:
         post_user_producer(message.from_user.id)
     except Exception as e:
+        await message.answer('Error adding you as a user. Please try again or contact support 🙏')
         logging.error(f'Error in start_router adding user to database: {e}')
 
     await message.answer(

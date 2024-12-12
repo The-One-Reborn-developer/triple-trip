@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
@@ -22,6 +24,8 @@ from app.views.add_place_en import (
 from app.views.errors_en import (
     place_photo_error
 )
+
+from app.tasks.post_location_producer import post_location_producer
 
 
 add_place_en_router = Router()
@@ -78,7 +82,18 @@ async def add_place_photo_handler(message: Message, state: FSMContext):
                 place_photo_error()
             )
         elif photos_amount == 10:
-            # TODO: add place to database for validation
+            location_data = {
+                'country': data['country'],
+                'name': data['name'],
+                'address': data['address'],
+                'photos': photos
+            }
+
+            try:
+                post_location_producer(location_data)
+            except Exception as e:
+                await message.answer('Error adding location to our database. Please try again or contact support 🙏')
+                logging.error(f'Error in add_place_photo_handler adding location {data["name"]} to the database: {e}')
 
             await state.clear()
 
@@ -99,7 +114,20 @@ async def add_place_photo_handler(message: Message, state: FSMContext):
 
 @add_place_en_router.callback_query(F.data == 'add_photo_done_en')
 async def add_place_done_handler(callback: CallbackQuery, state: FSMContext):
-    # TODO: add place to database for validation
+    data = await state.get_data()
+    location_data = {
+        'country': data['country'],
+        'name': data['name'],
+        'address': data['address'],
+        'photos': data['photos_ru']
+    }
+
+    try:
+        post_location_producer(location_data)
+    except Exception as e:
+        await callback.answer('Error adding location to our database. Please try again or contact support 🙏',
+                              show_alert=True)
+        logging.error(f'Error in add_place_done_handler adding location {data["name"]} to the database: {e}')
 
     await state.clear()
 
