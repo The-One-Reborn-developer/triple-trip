@@ -30,4 +30,10 @@ def choose_country_keyboard(page) -> InlineKeyboardMarkup:
     if pagination_buttons:
         keyboard.append(pagination_buttons)
 
+    back_to_menu_button = [
+        InlineKeyboardButton(text="Back to menu 🔙", callback_data="en")
+    ]
+
+    keyboard.append(back_to_menu_button)
+
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
