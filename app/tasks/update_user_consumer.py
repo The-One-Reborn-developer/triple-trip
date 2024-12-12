@@ -10,7 +10,7 @@ def update_user_consumer(ch, method, properties, body) -> None:
 
     update_user_result = update_user(
         telegram_id=data['telegram_id'],
-        is_admin=data['is_admin']
+        **{key: value for key, value in data.items() if key != 'telegram_id'}
     )
 
     if update_user_result:

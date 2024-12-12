@@ -22,7 +22,7 @@ async def menu_handler(callback: CallbackQuery):
     try:
         update_user_producer(
             callback.from_user.id,
-            languange=callback.data
+            language=callback.data
         )
     except Exception as e:
         logging.error(f'Error in menu_ru updating user in database: {e}')
