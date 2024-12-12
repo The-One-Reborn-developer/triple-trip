@@ -16,6 +16,8 @@ async def update_user(telegram_id: int, **kwargs) -> bool:
                     for key, value in kwargs.items():
                         setattr(user, key, value)
 
+                    logging.info(f'User {telegram_id} updated with data {kwargs} in the database')
+
                     session.add(user)
 
                     return True

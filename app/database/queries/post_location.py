@@ -13,7 +13,7 @@ def post_location(
     try:
         if len(photos) > 10:
             raise ValueError(f'Too many photos ({len(photos)}), maximum is 10')
-
+        
         with sync_session() as session:
             with session.begin():
                 location = Location(
