@@ -12,8 +12,8 @@ from app.routes.menu_ru import menu_router_ru
 from app.routes.menu_en import menu_router_en
 from app.routes.add_place_ru import add_place_ru_router
 from app.routes.add_place_en import add_place_en_router
-from app.routes.choose_country_ru import choose_country_ru_router
-from app.routes.choose_country_en import choose_country_en_router
+from app.routes.add_place_choose_country_ru import add_place_choose_country_ru_router
+from app.routes.add_place_choose_country_en import add_place_choose_country_en_router
 
 from app.tasks.create_tables_producer import create_tables_producer
 
@@ -43,8 +43,8 @@ async def main():
         menu_router_en,
         add_place_ru_router,
         add_place_en_router,
-        choose_country_ru_router,
-        choose_country_en_router
+        add_place_choose_country_ru_router,
+        add_place_choose_country_en_router
     )
 
     await dp.start_polling(bot)

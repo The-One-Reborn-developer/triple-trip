@@ -3,8 +3,8 @@ import orjson
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def choose_country_keyboard(page) -> InlineKeyboardMarkup:
-    data = orjson.loads(open('app/temp/countries_en.json', 'rb').read())
+def show_place_choose_country_keyboard(page) -> InlineKeyboardMarkup:
+    data = orjson.loads(open('app/temp/countries_ru.json', 'rb').read())
     items_per_page = 20
     total_pages = (len(data) + items_per_page - 1) // items_per_page
 
@@ -13,18 +13,18 @@ def choose_country_keyboard(page) -> InlineKeyboardMarkup:
     page_data = data[start_index:end_index]
 
     keyboard = [
-        [InlineKeyboardButton(text=country["name"], callback_data=f"country_en_{country['code']}")]
+        [InlineKeyboardButton(text=country["name"], callback_data=f"show_place_country_ru_{country['code']}")]
         for country in page_data
     ]
 
     pagination_buttons = []
     if page > 1:
         pagination_buttons.append(
-            InlineKeyboardButton(text="⬅️ Previous", callback_data=f"previous_page_en_{page - 1}")
+            InlineKeyboardButton(text="⬅️ Назад", callback_data=f"show_place_previous_page_ru_{page - 1}")
         )
     if page < total_pages:
         pagination_buttons.append(
-            InlineKeyboardButton(text="Next ➡️", callback_data=f"next_page_en_{page + 1}")
+            InlineKeyboardButton(text="Вперед ➡️", callback_data=f"show_place_next_page_ru_{page + 1}")
         )
 
     if pagination_buttons:

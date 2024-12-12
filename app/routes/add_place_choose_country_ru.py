@@ -1,15 +1,15 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
-from app.keyboards.choose_country_en import choose_country_keyboard
+from app.keyboards.add_place_choose_country_ru import choose_country_keyboard
 
-from app.views.choose_country_en import choose_country
-
-
-choose_country_en_router = Router()
+from app.views.choose_country_ru import choose_country
 
 
-@choose_country_en_router.callback_query(F.data == 'add_place_en')
+add_place_choose_country_ru_router = Router()
+
+
+@add_place_choose_country_ru_router.callback_query(F.data == 'add_place_ru')
 async def choose_country_handler(callback: CallbackQuery):
     await callback.message.edit_text(
         choose_country(),
@@ -17,7 +17,7 @@ async def choose_country_handler(callback: CallbackQuery):
     )
 
 
-@choose_country_en_router.callback_query(F.data.startswith('previous_page_en_'))
+@add_place_choose_country_ru_router.callback_query(F.data.startswith('add_place_previous_page_ru_'))
 async def pagination_previous_handler(callback: CallbackQuery):
     page = int(callback.data.split('_')[-1])
 
@@ -28,7 +28,7 @@ async def pagination_previous_handler(callback: CallbackQuery):
     await callback.answer()
 
 
-@choose_country_en_router.callback_query(F.data.startswith('next_page_en_'))
+@add_place_choose_country_ru_router.callback_query(F.data.startswith('add_place_next_page_ru_'))
 async def pagination_next_handler(callback: CallbackQuery):
     page = int(callback.data.split('_')[-1])
 
