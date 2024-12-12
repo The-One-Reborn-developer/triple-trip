@@ -15,9 +15,4 @@ class Location(Base):
     is_verified: Mapped[bool] = mapped_column(default=False, nullable=False)
 
     def __repr__(self):
-        return f'Location(id={self.id},
-                 country={self.country},
-                 name={self.name},
-                 address={self.address},
-                 photos={self.photos},
-                 is_verified={self.is_verified})'
+        return f'Location(id={self.id}, country={self.country}, name={self.name}, address={self.address}, photos={self.photos}, is_verified={self.is_verified})'
