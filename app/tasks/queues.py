@@ -15,13 +15,13 @@ def main():
     )
 
     logging.info('Waiting for RabbitMQ to be ready')
-    time.sleep(25)
+    time.sleep(30)
 
     rabbitmq = RabbitmqBase()
 
     rabbitmq.connect()
-    rabbitmq.channel.basic_qos(prefetch_count=1)
     rabbitmq.declare_queues()
+    rabbitmq.channel.basic_qos(prefetch_count=1)
 
     rabbitmq.channel.basic_consume(
         queue='post_user_queue',

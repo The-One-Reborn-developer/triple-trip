@@ -10,8 +10,10 @@ def post_location_consumer(ch, method, properties, body) -> None:
         location_data = orjson.loads(body)
 
         required_keys = ['country', 'name', 'address', 'photos']
-        if not required_keys.issubset(location_data.keys()):
-            raise ValueError('Invalid location data')
+
+        for key in required_keys:
+            if key not in location_data:
+                raise ValueError(f'{key} is a required field')
 
         location_country = location_data['country']
         location_name = location_data['name']

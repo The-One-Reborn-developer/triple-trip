@@ -28,7 +28,7 @@ async def main():
 
     try:
         logging.info('Waiting for RabbitMQ to be ready')
-        time.sleep(30)
+        time.sleep(35)
         logging.info('Creating database tables')
         create_tables_producer()
     except Exception as e:
