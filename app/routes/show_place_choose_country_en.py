@@ -9,6 +9,11 @@ from app.views.choose_country_en import choose_country
 show_place_choose_country_en_router = Router()
 
 
+@show_place_choose_country_en_router.callback_query(F.data)
+async def test(callback: CallbackQuery):
+    await callback.answer(callback.data, show_alert=True)
+
+
 @show_place_choose_country_en_router.callback_query(F.data == 'show_places_en')
 async def choose_country_handler(callback: CallbackQuery):
     await callback.message.edit_text(
