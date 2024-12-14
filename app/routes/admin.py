@@ -34,7 +34,7 @@ async def monitor_locations_handler(callback: CallbackQuery):
         await callback.answer('Нет не проверенных локаций', show_alert=True)
     else:
         for location in unvalidated_locations:
-            location_details = f'Название: {location["name"]}\n' \
+            location_details = f'⏫\nНазвание: {location["name"]}\n' \
                                f'Страна: {location["country"]}\n' \
                                f'Адрес: {location["address"]}\n'
             
@@ -50,4 +50,8 @@ async def monitor_locations_handler(callback: CallbackQuery):
             await callback.bot.send_media_group(
                 chat_id=callback.from_user.id,
                 media=location_media_group
+            )
+            await callback.bot.send_message(
+                chat_id=callback.from_user.id,
+                text=location_details
             )
