@@ -11,7 +11,6 @@ def get_unvalidated_locations_consumer(ch, method, properties, body) -> None:
     get_unvalidated_locations_result = get_unvalidated_locations()
 
     if get_unvalidated_locations_result:
-        response = [location_to_dict(location) for location in get_unvalidated_locations_result]
         logging.info(f'Found {len(get_unvalidated_locations_result)} unvalidated locations in the database')
 
         ch.basic_publish(
@@ -26,14 +25,3 @@ def get_unvalidated_locations_consumer(ch, method, properties, body) -> None:
         logging.info(f'No unvalidated locations found in the database')
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
-
-
-def location_to_dict(location: object) -> dict:
-    return {
-        'id': location.id,
-        'country': location.country,
-        'name': location.name,
-        'address': location.address,
-        'photos': location.photos,
-        'is_verified': location.is_verified
-    }

@@ -15,7 +15,17 @@ def get_unvalidated_locations() -> list[Location]:
 
                 if locations:
                     logging.info(f'Found {len(locations)} unvalidated locations in the database')
-                    return list(locations)
+                    
+                    return [
+                        {
+                            'id': location.id,
+                            'country': location.country,
+                            'name': location.name,
+                            'address': location.address,
+                            'photos': location.photos,
+                            'is_verified': location.is_verified
+                        } for location in locations
+                    ]
                 else:
                     logging.info(f'No unvalidated locations found in the database')
                     return []
