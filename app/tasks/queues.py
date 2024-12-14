@@ -9,6 +9,7 @@ from app.tasks.post_location_consumer import post_location_consumer
 from app.tasks.get_user_consumer import get_user_consumer
 from app.tasks.get_unvalidated_locations_consumer import get_unvalidated_locations_consumer
 from app.tasks.update_location_consumer import update_location_consumer
+from app.tasks.delete_location_consumer import delete_location_consumer
 
 
 def main():
@@ -30,35 +31,34 @@ def main():
         queue='post_user_queue',
         on_message_callback=post_user_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='create_tables_queue',
         on_message_callback=create_tables_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='update_user_queue',
         on_message_callback=update_user_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='post_location_queue',
         on_message_callback=post_location_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='get_user_queue',
         on_message_callback=get_user_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='get_unvalidated_locations_queue',
         on_message_callback=get_unvalidated_locations_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='update_location_queue',
         on_message_callback=update_location_consumer
+    )
+
+    rabbitmq.channel.basic_consume(
+        queue='delete_location_queue',
+        on_message_callback=delete_location_consumer
     )
 
     logging.info(' [*] Waiting for messages.')

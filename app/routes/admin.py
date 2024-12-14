@@ -14,6 +14,7 @@ from app.views.admin import admin_panel
 from app.tasks.get_user_producer import get_user_producer
 from app.tasks.get_unvalidated_locations_producer import get_unvalidated_locations_producer
 from app.tasks.update_location_producer import update_location_producer
+from app.tasks.delete_location_producer import delete_location_producer
 
 
 admin_router = Router()
@@ -89,3 +90,20 @@ async def approve_location_handler(callback: CallbackQuery):
     except Exception as e:
         await callback.answer('Произошла ошибка при одобрении локации', show_alert=True)
         logging.error(f'Error in approve_location_handler approving location {location_id}: {e}')
+
+
+@admin_router.callback_query(F.data.startswith('admin_location_decline_'))
+async def decline_location_handler(callback: CallbackQuery):
+    location_id = int(callback.data.split('_')[-1])
+    
+    try:
+        decline_location_result = delete_location_producer(location_id)
+
+        if decline_location_result:
+            await callback.answer('Локация отклонена', show_alert=True)
+        else:
+            await callback.answer('Произошла ошибка при отклонении локации', show_alert=True)
+
+    except Exception as e:
+        await callback.answer('Произошла ошибка при отклонении локации', show_alert=True)
+        logging.error(f'Error in decline_location_handler declining location {location_id}: {e}')
