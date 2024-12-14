@@ -49,6 +49,5 @@ async def monitor_locations_handler(callback: CallbackQuery):
             
             await callback.bot.send_media_group(
                 chat_id=callback.from_user.id,
-                media=location_media_group,
-                caption=location_details
+                media=location_media_group
             )
