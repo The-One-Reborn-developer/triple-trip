@@ -30,6 +30,25 @@ async def admin_panel_handler(message: Message):
 async def monitor_locations_handler(callback: CallbackQuery):
     unvalidated_locations = get_unvalidated_locations_producer()
 
-    await callback.message.answer(
-        str(unvalidated_locations)
-    )
+    if not unvalidated_locations:
+        await callback.answer('Нет не проверенных локаций', show_alert=True)
+    else:
+        for location in unvalidated_locations:
+            location_details = f'Название: {location["name"]}\n' \
+                               f'Страна: {location["country"]}\n' \
+                               f'Адрес: {location["address"]}\n'
+            
+            location_media_group = []
+            for photo in location['photos']:
+                location_media_group.append(
+                    {
+                        'type': 'photo',
+                        'media': photo
+                    }
+                )
+            
+            await callback.bot.send_media_group(
+                chat_id=callback.from_user.id,
+                media=location_media_group,
+                caption=location_details
+            )
