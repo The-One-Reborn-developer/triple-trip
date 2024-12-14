@@ -34,8 +34,7 @@ def post_location_consumer(ch, method, properties, body) -> None:
             logging.info(f'Location {location_name} added to the database')
         else:
             logging.error(f'Error in post_location_consumer adding location {location_name} to the database')
-
-        ch.basic_ack(delivery_tag=method.delivery_tag)
     except Exception as e:
         logging.error(f'Error in post_location_consumer adding location to the database: {e}')
+    finally:
         ch.basic_ack(delivery_tag=method.delivery_tag)
