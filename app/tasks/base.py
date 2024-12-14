@@ -47,6 +47,14 @@ class RabbitmqBase:
                     queue='get_user_reply_queue',
                     durable=True
                 )
+                self.channel.queue_declare(
+                    queue='get_unvalidated_locations_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='get_unvalidated_locations_reply_queue',
+                    durable=True
+                )
         except Exception as e:
             logging.error(f'Error in RabbitmqBase declaring queues: {e}')
 

@@ -7,6 +7,7 @@ from app.tasks.create_tables_consumer import create_tables_consumer
 from app.tasks.update_user_consumer import update_user_consumer
 from app.tasks.post_location_consumer import post_location_consumer
 from app.tasks.get_user_consumer import get_user_consumer
+from app.tasks.get_unvalidated_locations_consumer import get_unvalidated_locations_consumer
 
 
 def main():
@@ -47,6 +48,11 @@ def main():
     rabbitmq.channel.basic_consume(
         queue='get_user_queue',
         on_message_callback=get_user_consumer
+    )
+
+    rabbitmq.channel.basic_consume(
+        queue='get_unvalidated_locations_queue',
+        on_message_callback=get_unvalidated_locations_consumer
     )
 
     logging.info(' [*] Waiting for messages.')

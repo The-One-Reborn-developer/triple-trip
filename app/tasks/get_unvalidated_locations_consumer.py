@@ -5,7 +5,7 @@ import orjson
 from app.database.queries.get_unvalidated_locations import get_unvalidated_locations
 
 
-def get_user_consumer(ch, method, properties, body) -> None:
+def get_unvalidated_locations_consumer(ch, method, properties, body) -> None:
     logging.info(f" [x] Received {body.decode()}")
 
     get_unvalidated_locations_result = get_unvalidated_locations()
