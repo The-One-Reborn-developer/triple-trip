@@ -6,7 +6,6 @@ from app.tasks.base import RabbitmqBase
 def post_user_producer(telegram_id: int) -> bool:
     try:
         rabbitmq = RabbitmqBase()
-
         rabbitmq.connect()
 
         rabbitmq.channel.basic_publish(

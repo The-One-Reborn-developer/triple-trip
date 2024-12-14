@@ -6,7 +6,6 @@ from app.tasks.base import RabbitmqBase
 def create_tables_producer() -> bool:
     try:
         rabbitmq = RabbitmqBase()
-
         rabbitmq.connect()
 
         rabbitmq.channel.basic_publish(

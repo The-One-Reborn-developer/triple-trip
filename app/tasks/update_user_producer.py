@@ -7,7 +7,6 @@ from app.tasks.base import RabbitmqBase
 def update_user_producer(telegram_id: int, **kwargs) -> bool:
     try:
         rabbitmq = RabbitmqBase()
-
         rabbitmq.connect()
 
         message = {

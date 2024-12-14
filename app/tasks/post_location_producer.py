@@ -7,7 +7,6 @@ from app.tasks.base import RabbitmqBase
 def post_location_producer(location: dict) -> bool:
     try:
         rabbitmq = RabbitmqBase()
-
         rabbitmq.connect()
 
         rabbitmq.channel.basic_publish(
