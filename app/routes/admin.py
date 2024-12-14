@@ -79,7 +79,7 @@ async def approve_location_handler(callback: CallbackQuery):
     location_id = int(callback.data.split('_')[-1])
     
     try:
-        approve_location_result = update_location_producer(location_id)
+        approve_location_result = update_location_producer(location_id, is_verified=True)
 
         if approve_location_result:
             await callback.answer('Локация одобрена', show_alert=True)
