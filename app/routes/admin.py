@@ -39,5 +39,5 @@ async def monitor_locations_handler(callback: Message):
     unvalidated_locations = get_unvalidated_locations_producer()
 
     await callback.message.answer(
-        unvalidated_locations
+        str(unvalidated_locations)
     )
