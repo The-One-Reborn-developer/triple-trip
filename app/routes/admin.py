@@ -2,7 +2,10 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 
-from app.keyboards.admin import admin_keyboard
+from app.keyboards.admin import (
+    admin_keyboard,
+    location_keyboard
+)
 
 from app.views.admin import admin_panel
 
@@ -46,6 +49,8 @@ async def monitor_locations_handler(callback: CallbackQuery):
                         'media': photo
                     }
                 )
+
+            keyboard = location_keyboard(location['id'])
             
             await callback.bot.send_media_group(
                 chat_id=callback.from_user.id,
@@ -53,5 +58,6 @@ async def monitor_locations_handler(callback: CallbackQuery):
             )
             await callback.bot.send_message(
                 chat_id=callback.from_user.id,
-                text=location_details
+                text=location_details,
+                reply_markup=keyboard
             )

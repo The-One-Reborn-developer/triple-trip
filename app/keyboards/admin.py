@@ -12,3 +12,16 @@ def admin_keyboard() -> InlineKeyboardMarkup:
             ]
         ]
     )
+
+
+def location_keyboard(location_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text='Одобрить локацию ✅', callback_data=f'admin_location_approve_{location_id}')
+            ],
+            [
+                InlineKeyboardButton(text='Отклонить локацию ❌', callback_data=f'admin_location_decline_{location_id}')
+            ]
+        ]
+    )
