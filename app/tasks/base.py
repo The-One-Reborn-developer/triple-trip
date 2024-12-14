@@ -1,5 +1,4 @@
 import logging
-
 import pika
 
 
@@ -38,6 +37,14 @@ class RabbitmqBase:
                 )
                 self.channel.queue_declare(
                     queue='post_location_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='get_user_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='get_user_reply_queue',
                     durable=True
                 )
         except Exception as e:
