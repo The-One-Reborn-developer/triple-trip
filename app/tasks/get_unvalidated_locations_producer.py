@@ -29,6 +29,7 @@ def get_unvalidated_locations_producer() -> list[dict] | bool:
         for method_frame, properties, body in rabbitmq.channel.consume('get_unvalidated_locations_reply_queue'):
             if properties.correlation_id == correlation_id:
                 response = orjson.loads(body)
+                logging.info(f'Response from the database: {response}, type: {type(response)}')
                 rabbitmq.channel.basic_ack(delivery_tag=method_frame.delivery_tag)
                 break
 

@@ -46,10 +46,18 @@ async def monitor_locations_handler(callback: CallbackQuery):
         if not unvalidated_locations or len(unvalidated_locations) == 0:
             await callback.answer('Нет не проверенных локаций', show_alert=True)
         else:
-            for location in unvalidated_locations:
-                russian_country_names = orjson.loads(open('app/temp/countries_ru.json', 'rb').read())
-                
-                country = russian_country_names[location['country']]
+            russian_country_names = {}
+
+            with open('app/temp/countries_ru.json', 'rb') as f:
+                russian_country_names_load = orjson.loads(f.read())
+
+                russian_country_names = {
+                    item['code']: item['name'] for item in russian_country_names_load
+                }
+            for location in unvalidated_locations:                
+                country = russian_country_names.get(location['country'], '')
+                logging.info(f'Found unvalidated location: {location}')
+                logging.info(f'Country: {russian_country_names[location['country']]}')
 
                 location_details = f'⏫\nНазвание: {location["name"]}\n' \
                                 f'Страна: {country}\n' \
