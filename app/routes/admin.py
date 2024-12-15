@@ -1,4 +1,5 @@
 import logging
+import orjson
 
 from aiogram import Router, F
 from aiogram.filters import Command
@@ -46,8 +47,12 @@ async def monitor_locations_handler(callback: CallbackQuery):
             await callback.answer('Нет не проверенных локаций', show_alert=True)
         else:
             for location in unvalidated_locations:
+                russian_country_names = orjson.loads(open('app/temp/countries_ru.json', 'rb').read())
+                
+                country = russian_country_names[location['country']]
+
                 location_details = f'⏫\nНазвание: {location["name"]}\n' \
-                                f'Страна: {location["country"]}\n' \
+                                f'Страна: {country}\n' \
                                 f'Адрес: {location["address"]}\n'
                 
                 location_media_group = []
