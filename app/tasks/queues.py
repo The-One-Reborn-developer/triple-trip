@@ -10,6 +10,7 @@ from app.tasks.get_user_consumer import get_user_consumer
 from app.tasks.get_unvalidated_locations_consumer import get_unvalidated_locations_consumer
 from app.tasks.update_location_consumer import update_location_consumer
 from app.tasks.delete_location_consumer import delete_location_consumer
+from app.tasks.get_locations_by_country_consumer import get_locations_by_country_consumer
 
 
 def main():
@@ -55,10 +56,13 @@ def main():
         queue='update_location_queue',
         on_message_callback=update_location_consumer
     )
-
     rabbitmq.channel.basic_consume(
         queue='delete_location_queue',
         on_message_callback=delete_location_consumer
+    )
+    rabbitmq.channel.basic_consume(
+        queue='get_locations_by_country_queue',
+        on_message_callback=get_locations_by_country_consumer
     )
 
     logging.info(' [*] Waiting for messages.')

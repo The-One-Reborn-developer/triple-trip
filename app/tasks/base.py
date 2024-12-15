@@ -63,6 +63,14 @@ class RabbitmqBase:
                     queue='delete_location_queue',
                     durable=True
                 )
+                self.channel.queue_declare(
+                    queue='get_locations_by_country_queue',
+                    durable=True
+                )
+                self.channel.queue_declare(
+                    queue='get_locations_by_country_reply_queue',
+                    durable=True
+                )
         except Exception as e:
             logging.error(f'Error in RabbitmqBase declaring queues: {e}')
 
