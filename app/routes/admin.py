@@ -43,7 +43,7 @@ async def monitor_locations_handler(callback: CallbackQuery):
     try:
         unvalidated_locations = get_unvalidated_locations_producer()
 
-        if not unvalidated_locations:
+        if not unvalidated_locations or len(unvalidated_locations) == 0:
             await callback.answer('Нет не проверенных локаций', show_alert=True)
         else:
             for location in unvalidated_locations:

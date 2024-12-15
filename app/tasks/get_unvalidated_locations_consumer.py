@@ -24,6 +24,15 @@ def get_unvalidated_locations_consumer(ch, method, properties, body) -> None:
             )
         else:
             logging.info(f'No unvalidated locations found in the database')
+
+            ch.basic_publish(
+                exchange='',
+                routing_key=properties.reply_to,
+                body=orjson.dumps([]),
+                properties=pika.BasicProperties(
+                    correlation_id=properties.correlation_id
+                )
+            )
     except Exception as e:
         logging.error(f'Error in get_unvalidated_locations_consumer getting unvalidated locations from the database: {e}')
     finally:
