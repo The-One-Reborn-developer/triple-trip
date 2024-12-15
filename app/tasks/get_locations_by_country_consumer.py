@@ -9,7 +9,7 @@ def get_locations_by_country_consumer(ch, method, properties, body) -> None:
     logging.info(f" [x] Received {body.decode()}")
 
     try:
-        get_locations_by_country_result = get_locations_by_country()
+        get_locations_by_country_result = get_locations_by_country(body.decode())
 
 
         if get_locations_by_country_result:
