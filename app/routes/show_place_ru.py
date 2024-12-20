@@ -17,7 +17,7 @@ async def show_place_handler(callback: CallbackQuery):
         locations = get_locations_by_country_producer(country_code)
 
         if locations:
-            await callback.answer(locations)
+            await callback.answer(str(locations))
     except Exception as e:
         await callback.answer('Произошла ошибка при получении локаций', show_alert=True)
         logging.error(f'Error in show_place_handler getting locations by country {country_code}: {e}')
