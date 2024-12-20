@@ -14,7 +14,7 @@ async def show_place_handler(callback: CallbackQuery):
     country_code = callback.data.split('_')[-1]
 
     try:
-        locations = await get_locations_by_country_producer(country_code)
+        locations = get_locations_by_country_producer(country_code)
 
         if locations:
             await callback.answer(locations)
