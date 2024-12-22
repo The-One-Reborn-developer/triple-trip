@@ -18,7 +18,6 @@ show_place_ru_router = Router()
 @show_place_ru_router.callback_query(F.data.startswith('show_place_country_ru_'))
 async def show_place_handler(callback: CallbackQuery):
     country_code = callback.data.split('_')[-1]
-    await callback.message.delete()
 
     try:
         locations = get_locations_by_country_producer(country_code)
@@ -27,7 +26,7 @@ async def show_place_handler(callback: CallbackQuery):
             await callback.answer(no_locations(), show_alert=True)
         else:
             await callback.message.delete()
-            
+
             for location in locations:                
                 location_media_group = []
                 for photo in location['photos']:
