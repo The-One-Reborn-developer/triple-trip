@@ -50,10 +50,10 @@ async def show_place_handler(callback: CallbackQuery):
                         location['address']
                     )
                 )
-                await callback.message.answer(
-                    choose_option(),
-                    reply_markup=choose_option_keyboard()
-                )
+        await callback.message.answer(
+            choose_option(),
+            reply_markup=choose_option_keyboard()
+        )
     except Exception as e:
         await callback.answer(get_locations_error(), show_alert=True)
         logging.error(f'Error in show_place_handler getting locations by country {country_code}: {e}')
