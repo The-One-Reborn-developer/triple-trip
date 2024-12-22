@@ -34,8 +34,10 @@ async def show_place_handler(callback: CallbackQuery):
                 
                 await callback.bot.send_media_group(
                     chat_id=callback.from_user.id,
-                    text=location_details,
                     media=location_media_group
+                )
+                await callback.message.answer(
+                    location_details
                 )
     except Exception as e:
         await callback.answer('Произошла ошибка при получении локаций', show_alert=True)
