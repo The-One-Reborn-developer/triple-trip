@@ -26,6 +26,8 @@ async def show_place_handler(callback: CallbackQuery):
         if not locations:
             await callback.answer(no_locations(), show_alert=True)
         else:
+            await callback.message.delete()
+            
             for location in locations:                
                 location_media_group = []
                 for photo in location['photos']:
