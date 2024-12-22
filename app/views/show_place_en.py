@@ -5,3 +5,7 @@ def no_locations() -> str:
 def location_details(name, address) -> str:
     return f'⏫\nName: {name}\n' \
            f'Address: {address}\n'
+
+
+def choose_option() -> str:
+    return 'Choose an option ⏬'

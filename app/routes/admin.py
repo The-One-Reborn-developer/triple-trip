@@ -86,9 +86,8 @@ async def monitor_locations_handler(callback: CallbackQuery):
                     chat_id=callback.from_user.id,
                     media=location_media_group
                 )
-                await callback.bot.send_message(
-                    chat_id=callback.from_user.id,
-                    text=location_details(
+                await callback.message.answer(
+                    location_details(
                         location['name'],
                         country,
                         location['address'],

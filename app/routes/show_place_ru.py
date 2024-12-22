@@ -3,10 +3,13 @@ import logging
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
+from app.keyboards.show_place_ru import choose_option_keyboard
+
 from app.views.errors_ru import get_locations_error
 from app.views.show_place_ru import (
     no_locations,
-    location_details
+    location_details,
+    choose_option
 )
 
 from app.tasks.get_locations_by_country_producer import get_locations_by_country_producer
@@ -46,6 +49,10 @@ async def show_place_handler(callback: CallbackQuery):
                         location['name'],
                         location['address']
                     )
+                )
+                await callback.message.answer(
+                    choose_option(),
+                    reply_markup=choose_option_keyboard()
                 )
     except Exception as e:
         await callback.answer(get_locations_error(), show_alert=True)
