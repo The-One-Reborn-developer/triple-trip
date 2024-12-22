@@ -3,7 +3,7 @@ import logging
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
-from app.views.errors_ru import show_place_error
+from app.views.errors_ru import get_locations_error
 from app.views.show_place_ru import (
     no_locations,
     location_details
@@ -46,5 +46,5 @@ async def show_place_handler(callback: CallbackQuery):
                     )
                 )
     except Exception as e:
-        await callback.answer(show_place_error(), show_alert=True)
+        await callback.answer(get_locations_error(), show_alert=True)
         logging.error(f'Error in show_place_handler getting locations by country {country_code}: {e}')

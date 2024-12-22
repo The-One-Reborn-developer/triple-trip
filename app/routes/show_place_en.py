@@ -3,7 +3,11 @@ import logging
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
-from app.views.errors_en import show_place_error
+from app.views.errors_en import get_locations_error
+from app.views.show_place_en import (
+    no_locations,
+    location_details
+)
 
 from app.tasks.get_locations_by_country_producer import get_locations_by_country_producer
 
@@ -20,12 +24,9 @@ async def show_place_handler(callback: CallbackQuery):
         locations = get_locations_by_country_producer(country_code)
 
         if not locations:
-            await callback.answer(show_place_error(), show_alert=True)
+            await callback.answer(no_locations(), show_alert=True)
         else:
             for location in locations:
-                location_details = f'⏫\nНазвание: {location["name"]}\n' \
-                                f'Адрес: {location["address"]}\n'
-                
                 location_media_group = []
                 for photo in location['photos']:
                     location_media_group.append(
@@ -40,8 +41,11 @@ async def show_place_handler(callback: CallbackQuery):
                     media=location_media_group
                 )
                 await callback.message.answer(
-                    location_details
+                    location_details(
+                        location['name'],
+                        location['address']
+                    )
                 )
     except Exception as e:
-        await callback.answer(show_place_error(), show_alert=True)
+        await callback.answer(get_locations_error(), show_alert=True)
         logging.error(f'Error in show_place_handler getting locations by country {country_code}: {e}')
