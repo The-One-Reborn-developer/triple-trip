@@ -10,7 +10,19 @@ from app.keyboards.admin import (
     location_keyboard
 )
 
-from app.views.admin import admin_panel
+from app.views.admin import (
+    admin_panel,
+    location_details,
+    no_unvalidated_locations,
+    location_verified,
+    location_declined
+)
+from app.views.errors_ru import (
+    check_user_error,
+    check_location_error,
+    approve_location_error,
+    decline_location_error
+)
 
 from app.tasks.get_user_producer import get_user_producer
 from app.tasks.get_unvalidated_locations_producer import get_unvalidated_locations_producer
@@ -34,7 +46,7 @@ async def admin_panel_handler(message: Message):
                 reply_markup=admin_keyboard()
             )
     except Exception as e:
-        await message.answer('Произошла ошибка при проверке пользователя', show_alert=True)
+        await message.answer(check_user_error(), show_alert=True)
         logging.error(f'Error in admin_panel_handler checking user {message.from_user.id}: {e}')
 
 
@@ -44,7 +56,7 @@ async def monitor_locations_handler(callback: CallbackQuery):
         unvalidated_locations = get_unvalidated_locations_producer()
 
         if not unvalidated_locations or len(unvalidated_locations) == 0:
-            await callback.answer('Нет не проверенных локаций', show_alert=True)
+            await callback.answer(no_unvalidated_locations(), show_alert=True)
         else:
             russian_country_names = {}
 
@@ -58,10 +70,6 @@ async def monitor_locations_handler(callback: CallbackQuery):
                 country = russian_country_names.get(location['country'], '')
                 logging.info(f'Found unvalidated location: {location}')
                 logging.info(f'Country: {russian_country_names[location['country']]}')
-
-                location_details = f'⏫\nНазвание: {location["name"]}\n' \
-                                f'Страна: {country}\n' \
-                                f'Адрес: {location["address"]}\n'
                 
                 location_media_group = []
                 for photo in location['photos']:
@@ -80,11 +88,15 @@ async def monitor_locations_handler(callback: CallbackQuery):
                 )
                 await callback.bot.send_message(
                     chat_id=callback.from_user.id,
-                    text=location_details,
+                    text=location_details(
+                        location['name'],
+                        country,
+                        location['address'],
+                    ),
                     reply_markup=keyboard
                 )
     except Exception as e:
-        await callback.answer('Произошла ошибка при проверке локации', show_alert=True)
+        await callback.answer(check_location_error(), show_alert=True)
         logging.error(f'Error in monitor_locations_handler getting unvalidated locations: {e}')
 
 
@@ -96,12 +108,12 @@ async def approve_location_handler(callback: CallbackQuery):
         approve_location_result = update_location_producer(location_id, is_verified=1)
 
         if approve_location_result:
-            await callback.answer('Локация одобрена', show_alert=True)
+            await callback.answer(location_verified(), show_alert=True)
         else:
-            await callback.answer('Произошла ошибка при одобрении локации', show_alert=True)
+            await callback.answer(approve_location_error(), show_alert=True)
 
     except Exception as e:
-        await callback.answer('Произошла ошибка при одобрении локации', show_alert=True)
+        await callback.answer(approve_location_error(), show_alert=True)
         logging.error(f'Error in approve_location_handler approving location {location_id}: {e}')
 
 
@@ -113,10 +125,10 @@ async def decline_location_handler(callback: CallbackQuery):
         decline_location_result = delete_location_producer(location_id)
 
         if decline_location_result:
-            await callback.answer('Локация отклонена', show_alert=True)
+            await callback.answer(location_declined(), show_alert=True)
         else:
-            await callback.answer('Произошла ошибка при отклонении локации', show_alert=True)
+            await callback.answer(decline_location_error(), show_alert=True)
 
     except Exception as e:
-        await callback.answer('Произошла ошибка при отклонении локации', show_alert=True)
+        await callback.answer(decline_location_error(), show_alert=True)
         logging.error(f'Error in decline_location_handler declining location {location_id}: {e}')
